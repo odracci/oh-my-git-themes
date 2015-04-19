@@ -1,5 +1,5 @@
 : ${omg_ungit_prompt:=$PS1}
-: ${omg_second_line:="%~ • "}
+: ${omg_second_line:="%{$fg_bold[yellow]%} %~%{$reset_color%} • "}
 : ${omg_is_a_git_repo_symbol:=''}
 : ${omg_has_untracked_files_symbol:=''}        #                ?    
 : ${omg_has_adds_symbol:=''}
@@ -70,8 +70,7 @@ function custom_build_prompt {
     local red_on_black="%K{black}%F{red}"
     local black_on_red="%K{red}%F{black}"
     local white_on_red="%K{red}%F{white}"
-    local yellow_on_red="%K{red}%F{yellow}"
- 
+
     # Flags
     local omg_default_color_on="${black_on_white}"
 
@@ -118,17 +117,17 @@ function custom_build_prompt {
                     prompt+=$(enrich_append true "-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead}" "${white_on_red}")
                 else
                     if [[ $commits_behind -gt 0 ]]; then
-                        prompt+=$(enrich_append true "-${commits_behind} %F{white}${omg_can_fast_forward_symbol}%F{black} --" "${black_on_red}")
+                        prompt+=$(enrich_append true "-${commits_behind} %F{white}${omg_can_fast_forward_symbol}%F{black} --" "${white_on_red}")
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
-                        prompt+=$(enrich_append true "-- %F{white}${omg_should_push_symbol}%F{black}  +${commits_ahead}" "${black_on_red}")
+                        prompt+=$(enrich_append true "-- %F{white}${omg_should_push_symbol}%F{black}  +${commits_ahead}" "${white_on_red}")
                     fi
                     if [[ $commits_ahead == 0 && $commits_behind == 0 ]]; then
                          prompt+=$(enrich_append true " --   -- " "${black_on_red}")
                     fi
                     
                 fi
-                prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_red}")
+                prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${white_on_red}")
             fi
         fi
         prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
